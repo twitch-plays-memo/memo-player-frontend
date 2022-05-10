@@ -1,0 +1,29 @@
+<div class="page-container">
+  <!-- {{ gameInCooldown }} | {{ gameReady }} -->
+  <h1 *ngIf="gameInCooldown" class="title">New round starting soon</h1>
+  <h1 *ngIf="!gameReady && !gameInCooldown" class="title">Game not started</h1>
+  <div *ngIf="gameReady && !gameInCooldown" class="cards-container">
+    <ng-container *ngFor="let card of cards">
+      <div
+        class="memory-card"
+        (click)="clickedCard(card)"
+        [ngClass]="{ 'card-disabled': card.disabled }"
+      >
+        <ng-container *ngIf="selectedCardIndex === card.id; else notSelected">
+          <img
+            src="assets/check.png"
+            draggable="false"
+            class="memory-card-img"
+          />
+        </ng-container>
+        <ng-template #notSelected>
+          <div class="not-visible-body"></div>
+        </ng-template>
+      </div>
+    </ng-container>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="testAzureFunction()">
+    testAzureFunction
+  </button>
+</div>

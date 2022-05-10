@@ -1,40 +1,45 @@
 <div class="page-container">
   <!-- {{ gameInCooldown }} | {{ gameReady }} -->
-  <h1 *ngIf="gameInCooldown" class="title">New round starting soon</h1>
-  <h1 *ngIf="!gameReady && !gameInCooldown" class="title">Game not started</h1>
-  <div *ngIf="gameReady && !gameInCooldown" class="cards-container">
-    <ng-container *ngFor="let card of cards">
-      <div
-        class="memory-card"
-        (click)="clickedCard(card)"
-        [ngClass]="{ 'card-disabled': card.disabled }"
-      >
-        <ng-container *ngIf="selectedCardIndex === card.id; else notSelected">
-          <img
-            src="assets/check.png"
-            draggable="false"
-            class="memory-card-img"
-          />
-        </ng-container>
-        <ng-template #notSelected>
-          <div class="not-visible-body"></div>
-        </ng-template>
-      </div>
-    </ng-container>
-  </div>
+  <h1 *ngIf="gameWon" class="title">🎉 Victory! 🎉</h1>
+  <ng-container *ngIf="!gameWon">
+    <h1 *ngIf="gameInCooldown" class="title">New round starting soon</h1>
+    <h1 *ngIf="!gameReady && !gameInCooldown" class="title">
+      Game not started
+    </h1>
+    <div *ngIf="gameReady && !gameInCooldown" class="cards-container">
+      <ng-container *ngFor="let card of cards">
+        <div
+          class="memory-card"
+          (click)="clickedCard(card)"
+          [ngClass]="{ 'card-disabled': card.disabled }"
+        >
+          <ng-container *ngIf="selectedCardIndex === card.id; else notSelected">
+            <img
+              src="assets/check.png"
+              draggable="false"
+              class="memory-card-img"
+            />
+          </ng-container>
+          <ng-template #notSelected>
+            <div class="not-visible-body"></div>
+          </ng-template>
+        </div>
+      </ng-container>
+    </div>
 
-  <div class="inputs">
-    <mat-form-field appearance="fill">
-      <mat-label>Screen text</mat-label>
-      <input
-        matInput
-        placeholder="Best game ever"
-        [(ngModel)]="userScreenText"
-      />
-    </mat-form-field>
+    <div class="inputs">
+      <mat-form-field appearance="fill">
+        <mat-label>Screen text</mat-label>
+        <input
+          matInput
+          placeholder="Best game ever"
+          [(ngModel)]="userScreenText"
+        />
+      </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="saveTextToDb()">
-      Show on screen
-    </button>
-  </div>
+      <button mat-raised-button color="primary" (click)="saveTextToDb()">
+        Show on screen
+      </button>
+    </div>
+  </ng-container>
 </div>

@@ -12,6 +12,7 @@ enum GameState {
   GameOver = 'game-over',
   CountdownSelectChoice = 'countdown-select-choice',
   RoundCooldown = 'round-cooldown',
+  GameVictory = 'game-victory',
 }
 
 @Component({
@@ -30,6 +31,7 @@ export class GameComponent implements OnInit {
   gameReady = true;
   canSelectCard = true;
   gameInCooldown = false;
+  gameWon = false;
   userScreenText = '';
 
   // showIntro = true;
@@ -99,6 +101,7 @@ export class GameComponent implements OnInit {
     this.gameReady = !(newState === GameState.GameOver);
     this.canSelectCard = newState === GameState.CountdownSelectChoice;
     this.gameInCooldown = newState === GameState.RoundCooldown;
+    this.gameWon = newState === GameState.GameVictory;
     if (this.gameInCooldown) {
       this.selectedCardIndex = null;
     }

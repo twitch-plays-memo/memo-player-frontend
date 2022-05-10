@@ -30,6 +30,7 @@ export class GameComponent implements OnInit {
   gameReady = true;
   canSelectCard = true;
   gameInCooldown = false;
+  userScreenText = '';
 
   // showIntro = true;
   // showOutro = false;
@@ -50,16 +51,17 @@ export class GameComponent implements OnInit {
     this.loadGameStateAndStats();
   }
 
-  testAzureFunction() {
+  saveTextToDb() {
     this.http
       .post(
         'https://twitch-memo-function-1.azurewebsites.net/api/SetScreenText?code=oCfZL7aobgC3x-lkkfj9KlMOH2ZiNMPSA2TI9HhiVD6aAzFuvKSWlw==',
         {
-          setText: 'This is great',
+          setText: this.userScreenText,
         }
       )
       .subscribe((data) => {
         console.log('response:', data);
+        this.userScreenText = '';
       });
   }
   gotoNextTask() {
@@ -73,13 +75,20 @@ export class GameComponent implements OnInit {
         'https://twitch-memo-function-1.azurewebsites.net/api/GetGameStateAndStats?code=7QJg59i9k4n4yH8I-3ftuPvbGnNEnA6sVEi8oOwXc_KoAzFu6645Sw=='
       )
       .subscribe((data: any) => {
-        console.log('response:', data);
+        // console.log(
+        //   'response:',
+        //   data,
+        // );
         this.setGameState(data.state);
+        const activeCardIndexes: string[] = data.active_card_indexes.split(',');
         this.cards = Array.from(Array(+data.total_cards).keys()).map(
           (current, index) => {
             return {
               id: index,
-              disabled: false,
+              disabled:
+                activeCardIndexes.some(
+                  (currentCardIndex: string) => +currentCardIndex === index
+                ) === false,
             };
           }
         );

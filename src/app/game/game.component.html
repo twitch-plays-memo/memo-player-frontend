@@ -23,7 +23,18 @@
     </ng-container>
   </div>
 
-  <button mat-raised-button color="primary" (click)="testAzureFunction()">
-    testAzureFunction
-  </button>
+  <div class="inputs">
+    <mat-form-field appearance="fill">
+      <mat-label>Screen text</mat-label>
+      <input
+        matInput
+        placeholder="Best game ever"
+        [(ngModel)]="userScreenText"
+      />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="saveTextToDb()">
+      Show on screen
+    </button>
+  </div>
 </div>
